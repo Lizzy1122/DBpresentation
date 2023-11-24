@@ -26,8 +26,9 @@ import TheWelcome from './components/TheWelcome.vue'
   <!--  <a href="/BLOG">博客</a>-->
   
   <!--  使用router-link标签-->
-  <router-link to="./HOME">首页!!</router-link>
-  <router-link to="./BLOG">博客!!</router-link>
+  <router-link to="./HOME">首页|</router-link>
+  <router-link to="./BLOG">博客|</router-link>
+  <router-link to="./Crud1">Crud1</router-link>
   <router-view></router-view>
 <!--  <main>-->
 <!--    <TheWelcome />-->

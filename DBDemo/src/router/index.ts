@@ -6,7 +6,7 @@ import HOME from "../components/HOME.vue";
 // @ts-ignore
 import BLOG from "../components/BLOG.vue";
 // @ts-ignore
-import Crud from "../views/Crud.vue";
+import Crud from "../views/Crud1.vue";
 
 const router = createRouter({
     history:createWebHashHistory(),
@@ -18,6 +18,10 @@ const router = createRouter({
         {
             path:"/BLOG",
             component:BLOG
+        },
+        {
+            path:"/Crud1",
+            component:Crud
         },
         {
             path:"/",
