@@ -8,8 +8,6 @@
     "playwright.config.*"
   ],
   "compilerOptions": {
-    "suppressImplicitAnyIndexErrors": true,
-    "noImplicitAny": false,
     "composite": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
