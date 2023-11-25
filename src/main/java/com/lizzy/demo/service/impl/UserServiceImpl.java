@@ -26,13 +26,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public PageResp<UserEntity> getList(UserReq userReq) {
 
         QueryWrapper<UserEntity> queryWrapper = new QueryWrapper<>();
-        if(ObjectUtils.isEmpty(userReq.getUsername())){
+        if(!ObjectUtils.isEmpty(userReq.getUsername())){
             queryWrapper.lambda().eq(UserEntity::getUsername,userReq.getUsername());
         }
-        if(ObjectUtils.isEmpty(userReq.getAddr())){
+        if(!ObjectUtils.isEmpty(userReq.getAddr())){
             queryWrapper.lambda().eq(UserEntity::getAddr,userReq.getAddr());
         }
-        if(ObjectUtils.isEmpty(userReq.getGender())){
+        if(!ObjectUtils.isEmpty(userReq.getGender())){
             queryWrapper.lambda().eq(UserEntity::getGender,userReq.getGender());
         }
 
