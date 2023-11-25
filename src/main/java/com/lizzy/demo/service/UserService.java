@@ -8,4 +8,6 @@ import com.lizzy.demo.resp.PageResp;
 public interface UserService {
 
     PageResp<UserEntity> getList(UserReq userReq);
+
+    void Delete(Long id);
 }

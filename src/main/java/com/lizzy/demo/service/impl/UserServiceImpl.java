@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lizzy.demo.entity.UserEntity;
 import com.lizzy.demo.mapper.UserMapper;
 import com.lizzy.demo.req.UserReq;
-import com.lizzy.demo.resp.CommonResp;
 import com.lizzy.demo.resp.PageResp;
 import com.lizzy.demo.service.UserService;
 import org.springframework.stereotype.Service;
@@ -42,5 +41,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         pageResp.setTotal(userEntityPage.getTotal());
         pageResp.setList(userEntityPage.getRecords());
         return pageResp;
+    }
+
+    @Override
+    public void Delete(Long id) {
+        userMapper.deleteById(id);
     }
 }

@@ -7,9 +7,7 @@ import com.lizzy.demo.resp.CommonResp;
 import com.lizzy.demo.resp.PageResp;
 import com.lizzy.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -28,6 +26,11 @@ public class UserController {
         PageResp<UserEntity> list = userService.getList(userReq);
         resp.setContent(list);
         return resp;
-
+    }
+    @DeleteMapping("/Delete/{id}")
+    public CommonResp Delete(@PathVariable Long id){
+        CommonResp<UserEntity> resp = new CommonResp<>();
+        userService.Delete(id);
+        return resp;
     }
 }
