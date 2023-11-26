@@ -7,8 +7,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lizzy.demo.entity.UserEntity;
 import com.lizzy.demo.mapper.UserMapper;
 import com.lizzy.demo.req.UserReq;
+import com.lizzy.demo.req.UserSaveReq;
 import com.lizzy.demo.resp.PageResp;
 import com.lizzy.demo.service.UserService;
+import com.lizzy.demo.utils.CopyUtil;
+
+//import com.lizzy.demo.utils.SnowFlake;
+import com.lizzy.demo.utils.SnowFlake2;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -20,6 +25,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Resource
     private UserMapper userMapper;
 
+//    @Resource
+//    private SnowFlake snowFlake;
+
+    @Resource
+    private SnowFlake2 snowFlake2;
 
     @Override
     public PageResp<UserEntity> getList(UserReq userReq) {
@@ -46,5 +56,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Override
     public void Delete(Long id) {
         userMapper.deleteById(id);
+    }
+
+//    @Override
+//    public void Create(UserSaveReq req) {
+//        UserEntity entity = CopyUtil.copy(req, UserEntity.class);
+//        if(!ObjectUtils.isEmpty(req.getId())){
+//            entity.setId(snowFlake.nextId());
+//            userMapper.insert(entity);
+//        }
+//        else {
+//            userMapper.updateById(entity);
+//        }
+//    }
+
+
+    @Override
+    public void Create(UserSaveReq req) {
+        UserEntity entity = CopyUtil.copy(req, UserEntity.class);
+        if(!ObjectUtils.isEmpty(req.getId())){
+            entity.setId(snowFlake2.nextId());
+            userMapper.insert(entity);
+        }
+        else {
+            userMapper.updateById(entity);
+        }
     }
 }

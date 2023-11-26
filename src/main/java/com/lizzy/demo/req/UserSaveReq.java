@@ -1,11 +1,12 @@
-package com.lizzy.demo.entity;
+package com.lizzy.demo.req;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+
 //import lombok.Data;
 //使用lombok插件就不用写get、set、toString了
 //@Data
 @TableName("tb_user")
-public class UserEntity {
+public class UserSaveReq {
     private long id;
     private String username;
     private String password;

@@ -3,6 +3,7 @@ package com.lizzy.demo.controller;
 
 import com.lizzy.demo.entity.UserEntity;
 import com.lizzy.demo.req.UserReq;
+import com.lizzy.demo.req.UserSaveReq;
 import com.lizzy.demo.resp.CommonResp;
 import com.lizzy.demo.resp.PageResp;
 import com.lizzy.demo.service.UserService;
@@ -31,6 +32,12 @@ public class UserController {
     public CommonResp Delete(@PathVariable Long id){
         CommonResp<UserEntity> resp = new CommonResp<>();
         userService.Delete(id);
+        return resp;
+    }
+    @PostMapping("/Create")
+    public CommonResp Create(@RequestBody UserSaveReq req){
+        CommonResp<UserEntity> resp = new CommonResp<>();
+        userService.Create(req);
         return resp;
     }
 }
