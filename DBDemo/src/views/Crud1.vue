@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     getList() {
-      this.axios.get('http://localhost:5566/user/getList', {
+      this.axios.get('http://localhost:3312/user/getList', {
         params: {
           page: this.quary.page,
           size: this.quary.size,
@@ -55,7 +55,7 @@ export default {
     handleDelete(scope) {
       console.log(`删除：${scope.row.id}`);
       let id = scope.row.id;
-      this.axios.delete('http://localhost:5566/user/Delete/' + id)
+      this.axios.delete('http://localhost:3312/user/Delete/' + id)
           .then((resp) => {
             //let data =resp.data;
             if (resp.data.success) {
@@ -76,7 +76,7 @@ export default {
       this.dialogFormVisible = true;
     },
     SubmitFrom() {
-      this.axios.post('http://localhost:5566/user/Create/', this.form)
+      this.axios.post('http://localhost:3312/user/Create/', this.form)
           .then((resp) => {
             let data = resp.data;
             if (data.success) {
