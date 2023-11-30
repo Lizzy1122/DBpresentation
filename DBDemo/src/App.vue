@@ -10,34 +10,19 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <dic class="container">
+  <div class="container">
 
     <div class="navigator">
-      <router-link to="./HOME">首页|</router-link>
-      <router-link to="./BLOG">博客|</router-link>
-      <router-link to="./Crud1">Crud1</router-link>
+      <router-link to="./AdminOrder">修改订单|</router-link>
+      <router-link to="./AdminUser">修改用户|</router-link>
+      <router-link to="./AdminProduct">修改商品</router-link>
     </div>
 
     <div class="content">
       <router-view></router-view>
     </div>
 
-  </dic>
-  <!--  测试一下 Element-plus-->
-  <!--  <el-row class="mb-4">-->
-  <!--    <el-button>Default</el-button>-->
-  <!--    <el-button type="primary">Primary</el-button>-->
-  <!--    <el-button type="success">Success</el-button>-->
-  <!--    <el-button type="info">Info</el-button>-->
-  <!--    <el-button type="warning">Warning</el-button>-->
-  <!--    <el-button type="danger">Danger</el-button>-->
-  <!--  </el-row>-->
-  <!--测试 vue-router-->
-  <!--    如果不使用router则要使用a标签跳转-->
-  <!--    <a href="/HOME">首页</a>  |-->
-  <!--    <a href="/BLOG">博客</a>-->
-
-  <!--    使用router-link标签-->
+  </div>
 
 
 </template>

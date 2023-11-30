@@ -5,11 +5,12 @@ package com.lizzy.demo.req;
 //@Data
 public class UserReq extends PageReq {
 
+
     private String username;
-
-    private String gender;
-    private String addr;
-
+    private String address;
+    private String email;
+    private String phone;
+    private int usertype;
 
     public String getUsername() {
         return username;
@@ -19,29 +20,46 @@ public class UserReq extends PageReq {
         this.username = username;
     }
 
-
-    public String getGender() {
-        return gender;
+    public String getAddress() {
+        return address;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getAddr() {
-        return addr;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAddr(String addr) {
-        this.addr = addr;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public int getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(int usertype) {
+        this.usertype = usertype;
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                ", username=" + username +
-                ", gender=" + gender +
-                ", addr=" + addr +
+        return "UserReq{" +
+                "username='" + username + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", usertype=" + usertype +
                 '}';
     }
 }

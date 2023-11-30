@@ -35,23 +35,46 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public PageResp<UserEntity> getList(UserReq userReq) {
 
         QueryWrapper<UserEntity> queryWrapper = new QueryWrapper<>();
-        if(!ObjectUtils.isEmpty(userReq.getUsername())){
-            queryWrapper.lambda().eq(UserEntity::getUsername,userReq.getUsername());
+        //搜索全部的问题，要把用户类型改成Integar
+        if (ObjectUtils.isEmpty(userReq.getUsertype())) {
+            if (!ObjectUtils.isEmpty(userReq.getUsername())) {
+                queryWrapper.lambda().eq(UserEntity::getUsername, userReq.getUsername());
+            }
+            if (!ObjectUtils.isEmpty(userReq.getAddress())) {
+                queryWrapper.lambda().eq(UserEntity::getAddress, userReq.getAddress());
+            }
+            if (!ObjectUtils.isEmpty(userReq.getEmail())) {
+                queryWrapper.lambda().eq(UserEntity::getEmail, userReq.getEmail());
+            }
+            if (!ObjectUtils.isEmpty(userReq.getPhone())) {
+                queryWrapper.lambda().eq(UserEntity::getPhone, userReq.getPhone());
+            }
+        } else {
+            queryWrapper.lambda().eq(UserEntity::getUsertype, userReq.getUsertype());
+            if (!ObjectUtils.isEmpty(userReq.getUsername())) {
+                queryWrapper.lambda().eq(UserEntity::getUsername, userReq.getUsername());
+            }
+            if (!ObjectUtils.isEmpty(userReq.getAddress())) {
+                queryWrapper.lambda().eq(UserEntity::getAddress, userReq.getAddress());
+            }
+            if (!ObjectUtils.isEmpty(userReq.getEmail())) {
+                queryWrapper.lambda().eq(UserEntity::getEmail, userReq.getEmail());
+            }
+            if (!ObjectUtils.isEmpty(userReq.getPhone())) {
+                queryWrapper.lambda().eq(UserEntity::getPhone, userReq.getPhone());
+            }
         }
-        if(!ObjectUtils.isEmpty(userReq.getAddr())){
-            queryWrapper.lambda().eq(UserEntity::getAddr,userReq.getAddr());
-        }
-        if(!ObjectUtils.isEmpty(userReq.getGender())){
-            queryWrapper.lambda().eq(UserEntity::getGender,userReq.getGender());
-        }
+
 
         Page<UserEntity> page = new Page<>(userReq.getPage(), userReq.getSize());
         Page<UserEntity> userEntityPage = userMapper.selectPage(page, queryWrapper);
+//        IPage<UserEntity> userEntityIPage = userMapper.selectPage(page, queryWrapper);
         PageResp<UserEntity> pageResp = new PageResp<>();
         pageResp.setTotal(userEntityPage.getTotal());
         pageResp.setList(userEntityPage.getRecords());
         return pageResp;
     }
+
 
     @Override
     public void Delete(Long id) {
@@ -70,15 +93,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 //        }
 //    }
 
-
     @Override
     public void Create(UserSaveReq req) {
         UserEntity entity = CopyUtil.copy(req, UserEntity.class);
-        if(!ObjectUtils.isEmpty(req.getId())){
-            entity.setId(snowFlake2.nextId());
+        if (!ObjectUtils.isEmpty(req.getUserid())) {
+            entity.setUserid(snowFlake2.nextId());
             userMapper.insert(entity);
-        }
-        else {
+        } else {
             userMapper.updateById(entity);
         }
     }

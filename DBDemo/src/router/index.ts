@@ -6,26 +6,32 @@ import HOME from "../components/HOME.vue";
 // @ts-ignore
 import BLOG from "../components/BLOG.vue";
 // @ts-ignore
-import Crud from "../views/Crud1.vue";
+import AdminProduct from "../views/AdminProduct.vue";
+// @ts-ignore
+import AdminUser from "../views/AdminUser.vue";
+// @ts-ignore
+import AdminOrder from "../views/AdminOrder.vue";
+
+
 
 const router = createRouter({
     history:createWebHashHistory(),
     routes:[
         {
-            path:"/HOME",
-            component:HOME
+            path:"/AdminUser",
+            component:AdminUser
         },
         {
-            path:"/BLOG",
-            component:BLOG
+            path:"/AdminOrder",
+            component:AdminOrder
         },
         {
-            path:"/Crud1",
-            component:Crud
+            path:"/AdminProduct",
+            component:AdminProduct
         },
         {
             path:"/",
-            component:Crud
+            component:AdminProduct
         }
     ]
 });

@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'curd',
+  name: 'AdminUser',
   data() {
     return {
       tableData: [],
@@ -8,16 +8,36 @@ export default {
         page: 1,
         size: 6,
         username: '',
-        gender: '',
-        addr: ''
+        address: '',
+        email: '',
+        phone: '',
+        usertype:null
       },
+      options:[{
+        usertype: null,
+        name:"全部"
+      },
+      {
+        usertype: 1,
+        name:'买家'
+      },
+        {
+          usertype: 2,
+          name: '卖家'
+        },
+        {
+          usertype: 3,
+          name: '管理员'
+        }],
       total: 0,
       dialogFormVisible: false,
       form: {
-        id: '',
+        userid:'',
         username: '',
-        gender: '',
-        addr: ''
+        address: '',
+        email: '',
+        phone: '',
+        usertype:null
       },
     }
   },
@@ -30,9 +50,11 @@ export default {
         params: {
           page: this.quary.page,
           size: this.quary.size,
-          username: this.quary.username,
-          gender: this.quary.gender,
-          addr: this.quary.addr
+          username:this.quary.username,
+          address:this.quary.address,
+          email:this.quary.email,
+          phone:this.quary.phone,
+          usertype:this.quary.usertype
         }
       }).then((resp) => {
         console.log(resp);
@@ -53,15 +75,16 @@ export default {
       this.getList();
     },
     handleDelete(scope) {
-      console.log(`删除：${scope.row.id}`);
-      let id = scope.row.id;
-      this.axios.delete('http://localhost:3312/user/Delete/' + id)
+      console.log(`删除：${scope.row.username}`);
+      console.log(scope);
+      let userid = scope.row.userid;
+      this.axios.delete('http://localhost:3312/user/Delete/' + userid)
           .then((resp) => {
             //let data =resp.data;
             if (resp.data.success) {
               this.getList();
               this.$message({
-                message: `成功删除：${scope.row.id}`,
+                message: `成功删除：${scope.row.username}`,
                 type: 'success',
               })
             }
@@ -98,18 +121,30 @@ export default {
 
 <template>
   <div class="upperdiv">
-    <el-input v-model="quary.username" style="width: 200px" placeholder="请输入姓名"/>
-    <el-input v-model="quary.gender" style="width: 200px" placeholder="请输入性别"/>
-    <el-input v-model="quary.addr" style="width: 200px" placeholder="请输入地址"/>
+    <el-input v-model="quary.username" style="width: 150px" placeholder="请输入姓名"/>
+    <el-input v-model="quary.address" style="width: 150px" placeholder="请输入地址"/>
+    <el-input v-model="quary.email" style="width: 150px" placeholder="请输入邮箱"/>
+    <el-input v-model="quary.phone" style="width: 150px" placeholder="请输入电话"/>
+    <el-select v-model="quary.usertype" class="m-2" placeholder="请选择用户类型">
+      <el-option
+          v-for="option in options"
+          :label="option.name"
+          :value="option.usertype"
+      />
+    </el-select>
+<!--    <el-input v-model="quary.usertype" style="width: 150px" placeholder="请输入用户类型"/>-->
+
     <el-button @click="getList()" type="primary">查询</el-button>
     <el-button @click="handleCreate()" type="primary">新增</el-button>
   </div>
 
   <div class="middlediv">
-    <el-table :data="this.tableData" style="width: 100%">
+    <el-table :data="this.tableData" style=   "width: 100%">
       <el-table-column prop="username" label="姓名" width="180"/>
-      <el-table-column prop="gender" label="性别" width="180"/>
-      <el-table-column prop="addr" label="地址" width="180"/>
+      <el-table-column prop="address" label="地址" width="180"/>
+      <el-table-column prop="email" label="邮箱" width="180"/>
+      <el-table-column prop="phone" label="电话" width="180"/>
+      <el-table-column prop="usertype" label="用户类型" width="180"/>
 
       <el-table-column label="操作">
         <template #default="scope">
@@ -139,12 +174,19 @@ export default {
       <el-form-item label="姓名">
         <el-input v-model="form.username" autocomplete="off"/>
       </el-form-item>
-      <el-form-item label="性别">
-        <el-input v-model="form.gender" autocomplete="off"/>
-      </el-form-item>
       <el-form-item label="地址">
-        <el-input v-model="form.addr" autocomplete="off"/>
+        <el-input v-model="form.address" autocomplete="off"/>
       </el-form-item>
+      <el-form-item label="邮箱">
+        <el-input v-model="form.email" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="电话">
+        <el-input v-model="form.phone" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="用户类型">
+        <el-input v-model="form.usertype" autocomplete="off"/>
+      </el-form-item>
+
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -160,14 +202,14 @@ export default {
 
 <style scoped>
 .upperdiv {
-  width: 1000px;
+  width: 1500px;
   height: 50px;
   display: inline-block;
 
 }
 
 .middlediv {
-  width: 70%;
+  width: 1000px;
   height: 50%;
 }
 

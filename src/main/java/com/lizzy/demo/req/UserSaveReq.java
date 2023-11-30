@@ -1,24 +1,29 @@
 package com.lizzy.demo.req;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 //import lombok.Data;
 //使用lombok插件就不用写get、set、toString了
 //@Data
-@TableName("tb_user")
+@TableName("user")
 public class UserSaveReq {
-    private long id;
+    @JsonSerialize(using = ToStringSerializer.class)//后端处理还是Long ，前端返回String
+    private Long userid;
     private String username;
     private String password;
-    private String gender;
-    private String addr;
+    private String address;
+    private String email;
+    private String phone;
+    private int usertype;
 
-    public long getId() {
-        return id;
+    public Long getUserid() {
+        return userid;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setUserid(Long userid) {
+        this.userid = userid;
     }
 
     public String getUsername() {
@@ -37,30 +42,48 @@ public class UserSaveReq {
         this.password = password;
     }
 
-    public String getGender() {
-        return gender;
+    public String getAddress() {
+        return address;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getAddr() {
-        return addr;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAddr(String addr) {
-        this.addr = addr;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public int getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(int usertype) {
+        this.usertype = usertype;
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username=" + username +
-                ", password=" + password +
-                ", gender=" + gender +
-                ", addr=" + addr +
+        return "UserSaveReq{" +
+                "userid=" + userid +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", usertype=" + usertype +
                 '}';
     }
 }

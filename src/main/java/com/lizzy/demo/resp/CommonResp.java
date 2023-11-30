@@ -1,5 +1,5 @@
 package com.lizzy.demo.resp;
-
+//resp是前端返回的参数
 public class CommonResp<T> {
 
 
