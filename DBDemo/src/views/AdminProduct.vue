@@ -185,6 +185,13 @@ export default {
 </script>
 
 <template>
+  <div class="container">
+  <div class="navigator">
+    <router-link to="./AdminOrder">管理订单|</router-link>
+    <router-link to="./AdminUser">管理用户|</router-link>
+    <router-link to="./AdminProduct">管理商品</router-link>
+    <router-link to="./AdminCart">管理购物车</router-link>
+  </div>
 
   <div class="upperdiv">
     <el-input v-model="ProductName" style="width: 200px" placeholder="请输入产品名"/>
@@ -241,7 +248,7 @@ export default {
       </template>
 
     </el-dialog>
-
+  </div>
 </template>
 
 
@@ -265,6 +272,25 @@ export default {
 
 .demo-pagination-block {
   margin: 10px 0;
+}
+.container{
+  align-items: center;
+  justify-content: center;
+}
+.navigator {
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  padding: 10px;
+  float: left;
+  clear: both;
+}
+
+.content {
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  padding: 10px;
+  float: left;
+  clear: both;
 }
 </style>
 

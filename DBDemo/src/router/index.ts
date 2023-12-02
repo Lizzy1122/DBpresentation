@@ -13,9 +13,11 @@ import AdminUser from "../views/AdminUser.vue";
 import AdminOrder from "../views/AdminOrder.vue";
 // @ts-ignore
 import AdminCart from "../views/AdminCart.vue";
+import login from "../views/Login.vue";
+import register from "../views/Register.vue";
 
 
-
+// @ts-ignore
 const router = createRouter({
     history:createWebHashHistory(),
     routes:[
@@ -36,8 +38,16 @@ const router = createRouter({
             component:AdminCart
         },
         {
+            path: "/login",
+            component: login,
+        },
+        {
+            path: "/register",
+            component: register,
+        },
+        {
             path:"/",
-            component:AdminProduct
+            component:login
         }
     ]
 });

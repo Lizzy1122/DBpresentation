@@ -12,12 +12,12 @@ onBeforeMount(() => {
 <template>
   <div class="container">
 
-    <div class="navigator">
-      <router-link to="./AdminOrder">管理订单|</router-link>
-      <router-link to="./AdminUser">管理用户|</router-link>
-      <router-link to="./AdminProduct">管理商品</router-link>
-      <router-link to="./AdminCart">管理购物车</router-link>
-    </div>
+<!--    <div class="navigator">-->
+<!--      <router-link to="./AdminOrder">管理订单|</router-link>-->
+<!--      <router-link to="./AdminUser">管理用户|</router-link>-->
+<!--      <router-link to="./AdminProduct">管理商品</router-link>-->
+<!--      <router-link to="./AdminCart">管理购物车</router-link>-->
+<!--    </div>-->
 
     <div class="content">
       <router-view></router-view>
@@ -29,24 +29,24 @@ onBeforeMount(() => {
 </template>
 
 <style scoped>
-.container{
-  align-items: center;
-  justify-content: center;
-}
-.navigator {
-  background-color: #f1f1f1;
-  border: 1px solid #ccc;
-  padding: 10px;
-  float: left;
-  clear: both;
-}
+/*.container{*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*}*/
+/*.navigator {*/
+/*  background-color: #f1f1f1;*/
+/*  border: 1px solid #ccc;*/
+/*  padding: 10px;*/
+/*  float: left;*/
+/*  clear: both;*/
+/*}*/
 
-.content {
-  background-color: #f1f1f1;
-  border: 1px solid #ccc;
-  padding: 10px;
-  float: left;
-  clear: both;
-}
+/*.content {*/
+/*  background-color: #f1f1f1;*/
+/*  border: 1px solid #ccc;*/
+/*  padding: 10px;*/
+/*  float: left;*/
+/*  clear: both;*/
+/*}*/
 
 </style>
