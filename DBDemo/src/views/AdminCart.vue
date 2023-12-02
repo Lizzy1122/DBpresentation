@@ -2,29 +2,25 @@
 import moment from 'moment';
 
 export default {
-  name: 'AdminOrder',
+  name: 'AdminCart',
   data() {
     return {
       tableData: [],//所有数据
       pageNum: 1,   //当前页码
       pageSize: 5,  //每页显示个数
-      OrderID:'',
-      PurchaserID:'',
-      ProductID:'',
-      ShippingAddress:'',
-      TotalAmount:'',
-      UnitPrice:'',
-      OrdersQuantity:'',
+      CartID:'',
+      AddToCartQuantity: '',
+      AddToCartTime: null,
+      UserID: '',
+      ProductID: '',
       total: 0,
       FormVisible: false,
       form: {
-        orderID:'',
-        purchaserID:'',
-        productID:'',
-        shippingAddress:'',
-        totalAmount:'',
-        unitPrice:'',
-        ordersQuantity:'',
+        cartID: '',
+        addToCartQuantity: '',
+        addToCartTime: null,
+        userID: '',
+        productID: '',
       },
       shortcuts: [
         {
@@ -49,9 +45,10 @@ export default {
         },
       ],
       rules: {
-        purchaserID: [{required: true, message: "请输入买家ID", trigger: 'blur'}],
+        userID: [{required: true, message: "请输入用户ID", trigger: 'blur'}],
         productID: [{required: true, message: "请输入商品ID", trigger: 'blur'}],
-        shippingAddress: [{required: true, message: "请输入收货地址", trigger: 'blur'}],
+        addToCartQuantity: [{required: true, message: "请输入购买数量", trigger: 'blur'}],
+        addToCartTime: [{required: true, message: "请选择时间和日期", trigger: 'blur'},],
       },
       defaultTime: new Date(2000, 1, 1, 12, 0, 0),
       ids:[],
@@ -64,7 +61,7 @@ export default {
   },
   methods: {
     seleteAll(){
-      this.axios.get('http://localhost:3312/purchase/selectAll').then(res =>{
+      this.axios.get('http://localhost:3312/cart/selectAll').then(res =>{
         console.log(res)
         this.tableData = res.data.data
         this.total = 1
@@ -78,17 +75,14 @@ export default {
     },
     load(pageNum) {//分页查询
       if (pageNum) this.pageNum = pageNum;
-      this.axios.get('http://localhost:3312/purchase/selectByPage', {
+      this.axios.get('http://localhost:3312/cart/selectByPage', {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
-          OrderID:this.OrderID,
-          PurchaserID:this.PurchaserID,
-          ProductID:this.ProductID,
-          ShippingAddress:this.ShippingAddress,
-          TotalAmount:this.TotalAmount,
-          UnitPrice:this.UnitPrice,
-          OrdersQuantity:this.OrdersQuantity,
+          AddToCartQuantity: this.AddToCartQuantity,
+          AddToCartTime: this.AddToCartTime,
+          UserID:this.UserID,
+          ProductID:this.ProductID
         }
       }).then(res => {
         console.log(res)
@@ -99,13 +93,11 @@ export default {
       });
     },
     reset() {
-      this.OrderID=''
-      this.PurchaserID=''
-      this.ProductID=''
-      this.ShippingAddress=''
-      this.TotalAmount=''
-      this.UnitPrice=''
-      this.OrdersQuantity=''
+      this.CartID=''
+      this.AddToCartQuantity = ''
+      this.AddToCartTime = null
+      this.UserID = '';
+      this.ProductID = ''
       this.seleteAll();
     },
     handleCurrentChange(pageNum){
@@ -114,7 +106,7 @@ export default {
       this.load(pageNum);
     },
     handleSelectionChange(rows){
-      this.ids = rows.map(val=>val.orderID)
+      this.ids = rows.map(val=>val.cartID)
     },
     handleAdd() {
       this.form = {};
@@ -123,16 +115,14 @@ export default {
     save() {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
-          if (this.form.orderID) {
+          if (this.form.cartID) {
             console.log(this.form, 'axios前');
-            this.axios.put('http://localhost:3312/purchase/update', {
-              orderID: this.form.orderID,
-              purchaserID: this.form.purchaserID,
+            this.axios.put('http://localhost:3312/cart/update', {
+              cartID: this.form.cartID,
+              addToCartQuantity: this.form.addToCartQuantity,
+              addToCartTime: this.form.addToCartTime,
+              userID: this.form.userID,
               productID: this.form.productID,
-              shippingAddres: this.form.shippingAddres,
-              totalAmount: this.form.totalAmount,
-              unitPrice: this.form.unitPrice,
-              ordersQuantity: this.form.ordersQuantity,
             }).then(res => {
               if (res.data.code === '200') {
                 console.log(this.form, 'axios后');
@@ -144,27 +134,24 @@ export default {
               }
             })
           } else {
-            this.$message("订单ID不存在")
-            // console.log(this.form.addToCartQuantity, 666)
-            // console.log(this.form.addToCartTime, 666)
-            // console.log(this.form.userID, 666)
-            // console.log(this.form.productID, 666)
-            // this.axios.post('http://localhost:3312/purchase/add', {
-            //   purchaserID: this.form.purchaserID,
-            //   productID: this.form.productID,
-            //   shippingAddres: this.form.shippingAddres,
-            //   totalAmount: this.form.totalAmount,
-            //   unitPrice: this.form.unitPrice,
-            //   ordersQuantity: this.form.ordersQuantity,
-            // }).then(res => {
-            //   if (res.data.code === '200') {
-            //     this.$message.success('保存成功')
-            //     this.load(1)
-            //     this.FormVisible = false
-            //   } else {
-            //     this.$message.error(res.data.msg)
-            //   }
-            // })
+            console.log(this.form.addToCartQuantity, 666)
+            console.log(this.form.addToCartTime, 666)
+            console.log(this.form.userID, 666)
+            console.log(this.form.productID, 666)
+            this.axios.post('http://localhost:3312/cart/add', {
+              addToCartQuantity: this.form.addToCartQuantity,
+              addToCartTime: this.form.addToCartTime,
+              userID: this.form.userID,
+              productID: this.form.productID,
+            }).then(res => {
+              if (res.data.code === '200') {
+                this.$message.success('保存成功')
+                this.load(1)
+                this.FormVisible = false
+              } else {
+                this.$message.error(res.data.msg)
+              }
+            })
           }
         }
       })
@@ -175,7 +162,7 @@ export default {
         return
       }
       this.$confirm('您确认批量删除这些数据吗？','确认删除',{type:"warning"}).then(resp=>{
-        this.axios.delete('http://localhost:3312/purchase/delete/batch/',{
+        this.axios.delete('http://localhost:3312/cart/delete/batch/',{
           data:this.ids
         }).then(res=>{
           if (res.data.code === '200'){
@@ -196,7 +183,7 @@ export default {
     },
     handleDelete(id){
       this.$confirm('您确认删除吗？','确认删除',{type:"warning"}).then(resp=>{
-        this.axios.delete('http://localhost:3312/purchase/delete/'+id).then(res=>{
+        this.axios.delete('http://localhost:3312/cart/delete/'+id).then(res=>{
           if (res.data.code === '200'){
             this.$message.success('删除成功')
             this.seleteAll()
@@ -216,23 +203,22 @@ export default {
 <template>
 
   <div class="upperdiv">
-    <el-input v-model="OrderID" style="width: 200px; margin: 0 5px;" placeholder="请输入订单ID"/>
-    <el-input v-model="PurchaserID" style="width: 200px; margin: 0 5px;" placehsolder="请输入买家ID"/>
-    <el-input v-model="ProductID" style="width: 200px" placeholder="请输入商品ID"/>
-    <el-input v-model="ShippingAddress" style="width: 200px" placeholder="请输入收货地址"/>
+    <el-input v-model="ProductID" style="width: 200px; margin: 0 5px;" placeholder="请输入商品ID"/>
+    <el-input v-model="UserID" style="width: 200px; margin: 0 5px;" placehsolder="请输入用户ID"/>
+    <el-input v-model="AddToCartQuantity" style="width: 200px" placeholder="请输入商品数量"/>
 
-<!--    <el-date-picker class="demo-datetime-picker"-->
-<!--                    v-model="AddToOrderTime"-->
-<!--                    type="datetime"-->
-<!--                    placeholder="选择日期时间"-->
-<!--                    :shortcuts="shortcuts"-->
-<!--                    style="width: 200px; margin: 0 5px;"-->
-<!--                    format="YYYY/MM/DD HH:mm:ss"-->
-<!--                    value-format="YYYY-MM-DD HH:mm:ss"-->
-<!--    />-->
+    <el-date-picker class="demo-datetime-picker"
+                    v-model="AddToCartTime"
+                    type="datetime"
+                    placeholder="选择日期时间"
+                    :shortcuts="shortcuts"
+                    style="width: 200px; margin: 0 5px;"
+                    format="YYYY/MM/DD HH:mm:ss"
+                    value-format="YYYY-MM-DD HH:mm:ss"
+    />
     <el-button @click="load(1)" type="primary">查询</el-button>
     <el-button @click="reset()" type="info">重置</el-button>
-<!--    <el-button @click="handleAdd()" type="primary">新增</el-button>-->
+    <el-button @click="handleAdd()" type="primary">新增</el-button>
     <el-button @click="delBatch()" type="danger">批量删除</el-button>
   </div>
 
@@ -241,20 +227,19 @@ export default {
               :header-cell-style="{backgroundColor:'aliceblue', fontWeight:'bold',color:'#666'}"
               @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"></el-table-column>
-      <el-table-column prop="orderID" label="订单ID" width="180"/>
-      <el-table-column prop="purchaserID" label="买家ID" width="180"/>
-      <el-table-column prop="productID" label="商品ID" width="180"/>
-      <el-table-column prop="shippingAddress" label="收货地址" width="180"/>
-<!--      <el-table-column prop="addToOrderTime" label="订单时间" width="180">-->
+      <el-table-column prop="cartID" label="编号" width="180"/>
+      <el-table-column prop="addToCartQuantity" label="商品数量" width="180"/>
+      <el-table-column prop="addToCartTime" label="添加到购物车时间" width="180">
 <!--        <template v-slot="">-->
 <!--          {{ formatDate(AddToCartTime) }}-->
 <!--        </template>-->
-<!--      </el-table-column>-->
-
+      </el-table-column>
+      <el-table-column prop="userID" label="用户ID" width="180"/>
+      <el-table-column prop="productID" label="商品ID" width="180"/>
       <el-table-column label="操作" key="slot">
         <template #default="scope">
           <el-button size="small" type="primary" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button size="small" type="danger" @click="handleDelete(scope.row.orderID)">删除</el-button>
+          <el-button size="small" type="danger" @click="handleDelete(scope.row.cartID)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -273,32 +258,33 @@ export default {
     />
   </div>
 
-  <el-dialog v-model="FormVisible" title="编辑表单">
+  <el-dialog v-model="FormVisible" title="新增表单">
     <el-form :model="form" :rules="rules" ref="formRef">
 
-      <el-form-item label="买家ID" prop="PurchaserID">
-        <el-input v-model="form.purchaserID" autocomplete="off"/>
+      <el-form-item label="商品数量" prop="AddToCartQuantity">
+        <el-input v-model="form.addToCartQuantity" autocomplete="off"/>
+      </el-form-item>
+
+      <el-form-item label="添加到购物车时间" prop="AddToCartTime">
+        <el-date-picker class="demo-datetime-picker"
+                        v-model="form.addToCartTime"
+                        type="datetime"
+                        placeholder="选择日期时间"
+                        :shortcuts="shortcuts"
+                        style="width: 200px; margin: 0 5px;"
+                        format="YYYY/MM/DD HH:mm:ss"
+                        value-format="YYYY-MM-DD HH:mm:ss"
+        />
+      </el-form-item>
+
+
+      <el-form-item label="用户ID" prop="UserID">
+        <el-input v-model="form.userID" autocomplete="off"/>
       </el-form-item>
 
       <el-form-item label="商品ID" prop="ProductID">
         <el-input v-model="form.productID" autocomplete="off"/>
       </el-form-item>
-
-      <el-form-item label="收货地址" prop="ShippingAddress">
-        <el-input v-model="form.shippingAddress" autocomplete="off"/>
-      </el-form-item>
-
-<!--      <el-form-item label="添加到购物车时间" prop="AddToCartTime">-->
-<!--        <el-date-picker class="demo-datetime-picker"-->
-<!--                        v-model="form.addToCartTime"-->
-<!--                        type="datetime"-->
-<!--                        placeholder="选择日期时间"-->
-<!--                        :shortcuts="shortcuts"-->
-<!--                        style="width: 200px; margin: 0 5px;"-->
-<!--                        format="YYYY/MM/DD HH:mm:ss"-->
-<!--                        value-format="YYYY-MM-DD HH:mm:ss"-->
-<!--        />-->
-<!--      </el-form-item>-->
 
 
     </el-form>

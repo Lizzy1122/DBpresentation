@@ -11,6 +11,8 @@ import AdminProduct from "../views/AdminProduct.vue";
 import AdminUser from "../views/AdminUser.vue";
 // @ts-ignore
 import AdminOrder from "../views/AdminOrder.vue";
+// @ts-ignore
+import AdminCart from "../views/AdminCart.vue";
 
 
 
@@ -28,6 +30,10 @@ const router = createRouter({
         {
             path:"/AdminProduct",
             component:AdminProduct
+        },
+        {
+            path:"/AdminCart",
+            component:AdminCart
         },
         {
             path:"/",

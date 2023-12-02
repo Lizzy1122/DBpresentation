@@ -6,9 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+//@Entity
 @TableName("product")
 public class ProductEntity {
-
+//    @Id
     @TableId(type=IdType.AUTO)
     private Integer ProductID;
     private String ProductName;

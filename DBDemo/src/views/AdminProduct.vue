@@ -185,6 +185,7 @@ export default {
 </script>
 
 <template>
+
   <div class="upperdiv">
     <el-input v-model="ProductName" style="width: 200px" placeholder="请输入产品名"/>
     <el-input v-model="Description" style="width: 200px; margin: 0 5px;" placeholder="请输入产品描述"/>
@@ -192,7 +193,6 @@ export default {
     <el-button @click="reset()" type="info">重置</el-button>
     <el-button @click="handleAdd()" type="primary">新增</el-button>
     <el-button @click="delBatch()" type="danger">批量删除</el-button>
-
   </div>
 
   <div class="middlediv">

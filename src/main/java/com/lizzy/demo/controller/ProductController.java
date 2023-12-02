@@ -24,7 +24,6 @@ public class ProductController {
     @Resource
     private ProductService1 productService1;
 
-
     /**
      * 新增商品信息
      */

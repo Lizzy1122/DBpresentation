@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lizzy.demo.entity.ProductEntity;
+import com.lizzy.demo.mapper.CartMapper;
 import com.lizzy.demo.mapper.ProductMapper;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ public class ProductService1 extends ServiceImpl<ProductMapper,ProductEntity> {
 
     @Resource
     ProductMapper productMapper;
+
 
     @Override
     public boolean save(ProductEntity entity) {
@@ -29,6 +31,8 @@ public class ProductService1 extends ServiceImpl<ProductMapper,ProductEntity> {
     public ProductEntity selectByProductName(String ProductName){
         QueryWrapper<ProductEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("ProductName",ProductName);
+
         return getOne(queryWrapper);
     }
+
 }
