@@ -4,16 +4,23 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lizzy.demo.common.Result;
+import com.lizzy.demo.entity.CartEntity;
 import com.lizzy.demo.entity.ProductEntity;
 import com.lizzy.demo.entity.UserEntity;
 import com.lizzy.demo.req.UserReq;
 import com.lizzy.demo.resp.CommonResp;
 import com.lizzy.demo.resp.PageResp;
+import com.lizzy.demo.service.CartService;
 import com.lizzy.demo.service.ProductService1;
+import com.lizzy.demo.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import com.fasterxml.jackson.databind.JsonNode;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -23,6 +30,21 @@ public class ProductController {
 
     @Resource
     private ProductService1 productService1;
+    @Resource
+    private CartService cartService;
+
+    @PostMapping("/AddProductToCart")
+    public Result AddProductToCart (@RequestBody Map<String, Object> requestBody) {
+        Integer AddToCartQuantity = Integer.valueOf(requestBody.get("AddToCartQuantity").toString());
+        Integer UserID = Integer.valueOf(requestBody.get("UserID").toString());
+        Integer ProductID = Integer.valueOf(requestBody.get("ProductID").toString());
+        System.out.println(ProductID+"111");
+        System.out.println(AddToCartQuantity+"111");
+        System.out.println(UserID+"111");
+        cartService.addproducttocart(ProductID,AddToCartQuantity,UserID);
+//        ProductEntity product = productService1.AddProductToCart1(ProductID);
+        return Result.success("商品插入购物车表");
+    }
 
     /**
      * 新增商品信息
@@ -46,9 +68,9 @@ public class ProductController {
      */
     @PutMapping("/update")
     public Result update(@RequestBody ProductEntity req) {
-        try{
-        productService1.updateById(req);}
-        catch (Exception e) {
+        try {
+            productService1.updateById(req);
+        } catch (Exception e) {
             if (e instanceof DuplicateKeyException) {
                 return Result.error("更新数据库失败");
             } else {
@@ -104,13 +126,24 @@ public class ProductController {
     @GetMapping("/selectByPage")
     public Result selectByPage(@RequestParam Integer pageNum,
                                @RequestParam Integer pageSize,
+                               @RequestParam (required = false)Integer ProductID,
                                @RequestParam String ProductName,
-                               @RequestParam String Description) {
+                               @RequestParam String Description,
+                               @RequestParam (required = false)Float Price,
+                               @RequestParam (required = false)Integer StockQuantity,
+                               @RequestParam (required = false)String Properties,//商品属性
+                               @RequestParam (required = false)Integer SellerID) {
 
         QueryWrapper<ProductEntity> queryWrapper = new QueryWrapper<ProductEntity>().orderByDesc("productID");
         queryWrapper.lambda().orderByDesc(ProductEntity::getProductID);
         queryWrapper.like(StringUtils.isNotBlank(ProductName), "productName", ProductName);
         queryWrapper.like(StringUtils.isNotBlank(Description), "description", Description);
+        queryWrapper.eq(ProductID != null, "productID", ProductID);
+        queryWrapper.eq(Price != null, "price", Price);
+        queryWrapper.eq(StockQuantity != null, "stockQuantity", StockQuantity);
+        queryWrapper.like(StringUtils.isNotBlank(Properties), "properties", Properties);
+        queryWrapper.eq(SellerID != null, "sellerID", SellerID);
+//        queryWrapper.like(StringUtils.isNotBlank(SellerID), "sellerID", SellerID);
         // select * from user where ProductName like '%#{ProductName}%' and Description like '%#{Description}%'
         Page<ProductEntity> page = productService1.page(new Page<>(pageNum, pageSize), queryWrapper);
         return Result.success(page);

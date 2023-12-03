@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lizzy.demo.entity.CartEntity;
 import com.lizzy.demo.entity.ProductEntity;
+import com.lizzy.demo.login.entity.User;
+import com.lizzy.demo.login.mapper.LoginUserMappers;
 import com.lizzy.demo.mapper.CartMapper;
 import com.lizzy.demo.mapper.ProductMapper;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,16 @@ public class CartService extends ServiceImpl<CartMapper, CartEntity> {
 
     @Resource
     CartMapper cartMapper;
+
+
+    public void addproducttocart(Integer ProductID, Integer AddToCartQuantity, Integer UserID){
+        cartMapper.AddToCart(ProductID, AddToCartQuantity, UserID);
+    }
+
+
+    public void AddUserIDtoCart1(Integer UserID) {
+        cartMapper.AddUserIDtoCart1(UserID);
+    }
 
 //    @Override
 //    public boolean save(CartEntity entity) {

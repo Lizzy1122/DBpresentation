@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class User {
     @JsonProperty(value =  "UserID")
-    private  long UserID;
+    private  Integer UserID;
     @JsonProperty(value =  "Username")
     private  String Username;
     @JsonProperty(value =  "Password")
@@ -20,7 +20,7 @@ public class User {
     @JsonProperty(value =  "Phone")
     private  String Phone;
     @JsonProperty(value =  "UserType")
-    private  int UserType;
+    private  Integer UserType;
     @JsonProperty(value =  "Address")
     private  String Address;
 }
