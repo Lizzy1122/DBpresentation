@@ -1,89 +1,80 @@
 <script>
 export default {
-  name: 'AdminProduct',
+  name: 'AdminUser1',
   data() {
     return {
       tableData: [],//所有数据
       pageNum: 1,   //当前页码
       pageSize: 5,  //每页显示个数
+
       UserID: '',
-      ProductID: '',
-      ProductName: '',
-      Description: '',
-      StockQuantity: '',
-      Properties: '',
-      Price: '',
-      ProductReview: '',
-      ProductImages: '',
-      SellerID: '',
+      Username: "",
+      Password:'',
+      Address: "",
+      Email: "",
+      Phone: "",
+      UserType: null,
+
       total: 0,
       FormVisible: false,
       form: {
-        productID: '',
-        productName: '',
-        description: '',
-        price: '',
-        stockQuantity: '',
-        properties: '',
-        productReview: '',
-        productImages: '',
-        sellerID:'',
+        UserID: '',
+        Username: "",
+        Password:'',
+        Address: "",
+        Email: "",
+        Phone: "",
+        UserType: null,
       },
       rules: {
-        productName: [{required: true, message: "商品名不能为空", trigger: 'blur'},],
-        price:[{required: true, message: "商品价格不能为空", trigger: 'blur'},],
-        stockQuantity:[{required: true, message: "商品库存不能为空", trigger: 'blur'},],
-        sellerID:[{required: true, message: "商家ID不能为空", trigger: 'blur'},],
+        Username: [{required: true, message: "用户名不能为空", trigger: 'blur'},],
+        UserType:[{required: true, message: "用户类型不能为空", trigger: 'blur'},],
       },
       ids: [],
 
     }
   },
-
   mounted() {
     this.load()
-
   },
   methods: {
-
-    handleAddToCart(id) {
-      this.UserID = this.$route.query.userid;
-      this.AddToCartQuantity = 1;
-      this.ProductID = id;
-      // this.ProductName = ;
-      console.log(this.UserID);
-      console.log(this.AddToCartQuantity);
-      console.log(this.ProductID);
-
-      this.axios.post('http://localhost:3312/product/AddProductToCart', {
-        AddToCartQuantity: this.AddToCartQuantity,
-        UserID: this.UserID,
-        ProductID: this.ProductID,
-        ProductName: this.ProductName,
-      }).then(res => {
-        if (res.data.code === '200') {
-          this.$message.success('已加入购物车')
-        } else {
-          this.$message.error(res.data.msg)
-        }
-
-      })
-    },
+    // handleAddToCart(id) {
+    //   this.UserID = this.$route.query.userid;
+    //   this.AddToCartQuantity = 1;
+    //   this.ProductID = id;
+    //   // this.ProductName = ;
+    //   console.log(this.UserID);
+    //   console.log(this.AddToCartQuantity);
+    //   console.log(this.ProductID);
+    //
+    //   this.axios.post('http://localhost:3312/product/AddProductToCart', {
+    //     AddToCartQuantity: this.AddToCartQuantity,
+    //     UserID: this.UserID,
+    //     ProductID: this.ProductID,
+    //     ProductName: this.ProductName,
+    //   }).then(res => {
+    //     if (res.data.code === '200') {
+    //       this.$message.success('已加入购物车')
+    //     } else {
+    //       this.$message.error(res.data.msg)
+    //     }
+    //
+    //   })
+    // },
 
     load(pageNum) {//分页查询
       if (pageNum) this.pageNum = pageNum;
 
-      this.axios.get('http://localhost:3312/product/selectByPage', {
+      this.axios.get('http://localhost:3312/user1/selectByPage', {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
-          ProductID: this.ProductID,
-          ProductName: this.ProductName,
-          Description: this.Description,
-          StockQuantity: this.StockQuantity,
-          Properties: this.Properties,
-          Price: this.Price,
-          SellerID: this.SellerID,
+          UserID:this.UserID,
+          Username: this.Username,
+          Email: this.Email,
+          Address: this.Address,
+          Phone: this.Phone,
+          UserType: this.UserType,
         }
       }).then(res => {
         console.log(res)
@@ -94,29 +85,28 @@ export default {
       });
     },
     reset() {
-      this.ProductName = '';
-      this.Description = '';
-      this.StockQuantity = '';
-      this.Properties = '';
-      this.Price = '';
-      this.SellerID = '';
+      this.UserID = '';
+      this.Username = '';
+      this.Email = '';
+      this.Address = '';
+      this.Phone = '';
+      this.UserType = '';
       this.load();
     },
     save() {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
 
-          if (this.form.productID) {
+          if (this.form.UserID) {
             console.log(this.form, 'axios前');
-            this.axios.put('http://localhost:3312/product/update', {
-              productID: this.form.productID,
-              productName: this.form.productName,
-              description: this.form.description,
-              price: this.form.price,
-              stockQuantity: this.form.stockQuantity,
-              properties: this.form.properties,
-              productReview: this.form.productReview,
-              productImages: this.form.productImages,
+            this.axios.put('http://localhost:3312/user1/update', {
+              UserID: this.form.UserID,
+              Password: this.Password,
+              Username: this.form.Username,
+              Email: this.form.Email,
+              Address: this.form.Address,
+              Phone: this.form.Phone,
+              UserType: this.form.UserType,
             }).then(res => {
               if (res.data.code === '200') {
                 console.log(this.form, 'axios后');
@@ -128,17 +118,13 @@ export default {
               }
             })
           } else {
-            console.log(this.form.productName, 666)
-            console.log(this.form.description, 666)
-            console.log(this.form.productID, 666)
-            this.axios.post('http://localhost:3312/product/add', {
-              productName: this.form.productName,
-              description: this.form.description,
-              price: this.form.price,
-              stockQuantity: this.form.stockQuantity,
-              properties: this.form.properties,
-              productReview: this.form.productReview,
-              productImages: this.form.productImages,
+            this.axios.post('http://localhost:3312/user1/add', {
+              Username: this.form.Username,
+              Password:this.form.Password,
+              Email: this.form.Email,
+              Address: this.form.Address,
+              Phone: this.form.Phone,
+              UserType: this.form.UserType,
             }).then(res => {
               if (res.data.code === '200') {
                 this.$message.success('保存成功')
@@ -193,7 +179,7 @@ export default {
     },
     handleDelete(id) {
       this.$confirm('您确认删除吗？', '确认删除', {type: "warning"}).then(resp => {
-        this.axios.delete('http://localhost:3312/product/delete/' + id).then(res => {
+        this.axios.delete('http://localhost:3312/user1/delete/' + id).then(res => {
           if (res.data.code === '200') {
             this.$message.success('删除成功')
             this.load(1)
@@ -214,7 +200,7 @@ export default {
         return
       }
       this.$confirm('您确认批量删除这些数据吗？', '确认删除', {type: "warning"}).then(resp => {
-        this.axios.delete('http://localhost:3312/product/delete/batch/', {
+        this.axios.delete('http://localhost:3312/user1/delete/batch/', {
           data: this.ids
         }).then(res => {
           if (res.data.code === '200') {
@@ -238,18 +224,18 @@ export default {
   <div class="container">
     <div class="navigator">
       <router-link to="./AdminOrder">管理订单|</router-link>
-      <router-link to="./AdminUser1">管理用户|</router-link>
+      <router-link to="./AdminUser">管理用户|</router-link>
       <router-link to="./AdminProduct">管理商品</router-link>
       <router-link to="./AdminCart">管理购物车</router-link>
     </div>
 
     <div class="upperdiv">
-      <el-input v-model="ProductName" style="width: 200px" placeholder="请输入产品名"/>
-      <el-input v-model="Description" style="width: 200px; margin: 0 5px;" placeholder="请输入产品描述"/>
-      <el-input v-model="Price" style="width: 200px; margin: 0 5px;" placeholder="请输入商品价格"/>
-      <el-input v-model="StockQuantity" style="width: 200px; margin: 0 5px;" placeholder="请输入商品库存"/>
-      <el-input v-model="Properties" style="width: 200px; margin: 0 5px;" placeholder="请输入商品属性"/>
-      <el-input v-model="SellerID" style="width: 200px; margin: 0 5px;" placeholder="请输入商家ID"/>
+      <el-input v-model="UserID" style="width: 200px" placeholder="请输入用户ID"/>
+      <el-input v-model="Username" style="width: 200px; margin: 0 5px;" placeholder="请输入用户名"/>
+      <el-input v-model="Email" style="width: 200px; margin: 0 5px;" placeholder="请输入邮箱"/>
+      <el-input v-model="Phone" style="width: 200px; margin: 0 5px;" placeholder="请输入手机号"/>
+      <el-input v-model="Address" style="width: 200px; margin: 0 5px;" placeholder="请输入地址"/>
+      <el-input v-model="UserType" style="width: 200px; margin: 0 5px;" placeholder="请输入用户类型"/>
       <el-button @click="load(1)" type="primary">查询</el-button>
       <el-button @click="reset()" type="info">重置</el-button>
       <el-button @click="handleAdd()" type="primary">新增</el-button>
@@ -261,16 +247,16 @@ export default {
                 :header-cell-style="{backgroundColor:'aliceblue', fontWeight:'bold',color:'#666'}"
                 @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="productName" label="商品名" width="180"/>
-        <el-table-column prop="description" label="商品描述" width="180"/>
-        <el-table-column prop="price" label="商品价格" width="180"/>
-        <el-table-column prop="stockQuantity" label="商品库存" width="180"/>
-        <el-table-column prop="properties" label="商品属性" width="180"/>
-        <el-table-column prop="sellerID" label="商家ID" width="180"/>
+        <el-table-column prop="userID" label="用户ID" width="180"/>
+        <el-table-column prop="Username" label="用户名" width="180"/>
+        <el-table-column prop="Email" label="邮箱" width="180"/>
+        <el-table-column prop="Phone" label="手机号" width="180"/>
+        <el-table-column prop="Address" label="地址" width="180"/>
+        <el-table-column prop="UserType" label="用户类型" width="180"/>
         <el-table-column label="操作" key="slot">
           <template #default="scope">
             <el-button size="small" type="primary" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="small" type="danger" @click="handleDelete(scope.row.productID)">删除</el-button>
+            <el-button size="small" type="danger" @click="handleDelete(scope.row.userID)">删除</el-button>
 <!--            <el-button size="small" type="primary" @click="handleAddToCart(scope.row.productID)">加入购物车</el-button>-->
           </template>
         </el-table-column>
@@ -290,25 +276,25 @@ export default {
       />
     </div>
 
-    <el-dialog v-model="FormVisible" title="新增表单">
+    <el-dialog v-model="FormVisible" title="编辑用户">
       <el-form :model="form" :rules="rules" ref="formRef">
-        <el-form-item label="商品名" prop="productName">
-          <el-input v-model="form.productName" autocomplete="off"/>
+        <el-form-item label="用户名" prop="Username">
+          <el-input v-model="form.Username" autocomplete="off"/>
         </el-form-item>
-        <el-form-item label="商品描述" prop="description">
-          <el-input v-model="form.description" autocomplete="off"/>
+        <el-form-item label="密码" prop="Password">
+          <el-input v-model="form.Password" autocomplete="off"/>
         </el-form-item>
-        <el-form-item label="商品价格" prop="price">
-          <el-input v-model="form.price" autocomplete="off"/>
+        <el-form-item label="邮箱" prop="Email">
+          <el-input v-model="form.Email" autocomplete="off"/>
         </el-form-item>
-        <el-form-item label="商品库存" prop="stockQuantity">
-          <el-input v-model="form.stockQuantity" autocomplete="off"/>
+        <el-form-item label="手机号" prop="Phone">
+          <el-input v-model="form.Phone" autocomplete="off"/>
         </el-form-item>
-        <el-form-item label="商品属性" prop="properties">
-          <el-input v-model="form.properties" autocomplete="off"/>
+        <el-form-item label="地址" prop="Address">
+          <el-input v-model="form.Address" autocomplete="off"/>
         </el-form-item>
-        <el-form-item label="商家ID" prop="sellerID">
-          <el-input v-model="form.sellerID" autocomplete="off"/>
+        <el-form-item label="用户类型" prop="UserType">
+          <el-input v-model="form.UserType" autocomplete="off"/>
         </el-form-item>
       </el-form>
       <template #footer>

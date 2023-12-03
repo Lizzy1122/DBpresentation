@@ -208,7 +208,7 @@ export default {
 
     <div class="navigator">
       <router-link to="./AdminOrder">管理订单|</router-link>
-      <router-link to="./AdminUser">管理用户|</router-link>
+      <router-link to="./AdminUser1">管理用户|</router-link>
       <router-link to="./AdminProduct">管理商品</router-link>
       <router-link to="./AdminCart">管理购物车</router-link>
     </div>

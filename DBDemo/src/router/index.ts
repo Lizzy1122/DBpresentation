@@ -22,6 +22,8 @@ import UserCart from "../views/UserCart.vue";
 // @ts-ignore
 import UserProduct from "../views/UserProduct.vue";
 // @ts-ignore
+import AdminUser1 from "../views/AdminUser1.vue";
+// @ts-ignore
 const router = createRouter({
     history:createWebHashHistory(),
     routes:[
@@ -34,8 +36,8 @@ const router = createRouter({
             component:UserProduct
         },
         {
-            path:"/AdminUser",
-            component:AdminUser
+            path:"/AdminUser1",
+            component:AdminUser1
         },
         {
             path:"/AdminOrder",
