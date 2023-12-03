@@ -1,6 +1,6 @@
 //这个文件是当前的路由模块
 
-import {createRouter, createWebHashHistory} from 'vue-router';
+import { createRouter, createWebHashHistory } from "vue-router";
 // @ts-ignore
 import HOME from "../components/HOME.vue";
 // @ts-ignore
@@ -15,41 +15,45 @@ import AdminOrder from "../views/AdminOrder.vue";
 import AdminCart from "../views/AdminCart.vue";
 import login from "../views/Login.vue";
 import register from "../views/Register.vue";
-
+import seller from "../views/SellerProduct.vue";
 
 // @ts-ignore
 const router = createRouter({
-    history:createWebHashHistory(),
-    routes:[
-        {
-            path:"/AdminUser",
-            component:AdminUser
-        },
-        {
-            path:"/AdminOrder",
-            component:AdminOrder
-        },
-        {
-            path:"/AdminProduct",
-            component:AdminProduct
-        },
-        {
-            path:"/AdminCart",
-            component:AdminCart
-        },
-        {
-            path: "/login",
-            component: login,
-        },
-        {
-            path: "/register",
-            component: register,
-        },
-        {
-            path:"/",
-            component:login
-        }
-    ]
+  history: createWebHashHistory(),
+  routes: [
+    {
+      path: "/AdminUser",
+      component: AdminUser,
+    },
+    {
+      path: "/AdminOrder",
+      component: AdminOrder,
+    },
+    {
+      path: "/AdminProduct",
+      component: AdminProduct,
+    },
+    {
+      path: "/AdminCart",
+      component: AdminCart,
+    },
+    {
+      path: "/login",
+      component: login,
+    },
+    {
+      path: "/seller",
+      component: seller,
+    },
+    {
+      path: "/register",
+      component: register,
+    },
+    {
+      path: "/",
+      component: login,
+    },
+  ],
 });
 
 export default router;

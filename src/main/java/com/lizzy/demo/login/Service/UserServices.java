@@ -61,4 +61,8 @@ public class UserServices {
 
 
     }
+
+    public User selectByUsernameType(String username, Integer userType) {
+        return userMappers.selectByUsername(username,userType);
+    }
 }

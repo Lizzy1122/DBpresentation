@@ -56,7 +56,7 @@
             </el-option>
           </el-select>
         </div>
-        <div style="text-align: center;  ">
+        <div style="text-align: center">
           <el-button style="width: 220px" type="primary" @click="login"
             >登录</el-button
           >
@@ -121,7 +121,15 @@ export default {
           ElMessage.success("登录成功");
           if (this.value == "0") this.$router.push("/AdminCart"); //不同用户跳转不同页面
           if (this.value == "1") this.$router.push("/AdminUser"); //1代表用户
-          if (this.value == "2") this.$router.push("/AdminProduct"); //2代表商家
+          if (this.value == "2") {
+            this.$router.push({
+              path: "/seller",
+              query: {
+                Username: response.data.data.Username,
+                UserType: response.data.data.UserType,
+              },
+            });
+          }
         } else {
           ElMessage.error(response.data.msg);
           console.log("登录失败", response.data);
