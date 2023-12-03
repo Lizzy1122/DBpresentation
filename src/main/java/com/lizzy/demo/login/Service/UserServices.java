@@ -18,6 +18,8 @@ import java.util.Random;
 public class UserServices {
     @Resource
     LoginUserMappers userMappers;
+
+
     //增加
     public void insertUser(User user) {
     }

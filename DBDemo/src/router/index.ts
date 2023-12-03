@@ -1,6 +1,6 @@
 //这个文件是当前的路由模块
 
-import { createRouter, createWebHashHistory } from "vue-router";
+import {createRouter, createWebHashHistory} from 'vue-router';
 // @ts-ignore
 import HOME from "../components/HOME.vue";
 // @ts-ignore
@@ -19,6 +19,45 @@ import seller from "../views/SellerProduct.vue";
 
 // @ts-ignore
 const router = createRouter({
+    history:createWebHashHistory(),
+    routes:[
+        {
+            path:"/UserCart",
+            component:UserCart
+        },
+        {
+            path:"/UserProduct",
+            component:UserProduct
+        },
+        {
+            path:"/AdminUser",
+            component:AdminUser
+        },
+        {
+            path:"/AdminOrder",
+            component:AdminOrder
+        },
+        {
+            path:"/AdminProduct",
+            component:AdminProduct
+        },
+        {
+            path:"/AdminCart",
+            component:AdminCart
+        },
+        {
+            path: "/login",
+            component: login,
+        },
+        {
+            path: "/register",
+            component: register,
+        },
+        {
+            path:"/",
+            component:login
+        }
+    ]
   history: createWebHashHistory(),
   routes: [
     {

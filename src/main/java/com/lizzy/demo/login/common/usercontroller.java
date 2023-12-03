@@ -9,6 +9,8 @@ import cn.hutool.core.util.StrUtil;
 import com.lizzy.demo.login.Service.UserServices;
 import com.lizzy.demo.login.entity.Result;
 import com.lizzy.demo.login.entity.User;
+import com.lizzy.demo.service.CartService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,6 +20,18 @@ import java.rmi.ServerException;
 public class usercontroller {
     @Resource
     UserServices userService;
+    @Resource
+    CartService cartService;
+
+    @PostMapping("/AddUserIDtoCart")
+    public Result AddUserIDtoCart(@Param("UserID") Integer UserID){
+        cartService.AddUserIDtoCart1(UserID);
+        return Result.success("用户ID插入购物车表");
+    }
+//    @GetMapping("/getUserID")
+//    public  Result getUserID(){
+//        userService
+//    }
     @GetMapping("/add")
     public Result hello() {
         return Result.success("success");

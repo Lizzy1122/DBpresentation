@@ -17,7 +17,7 @@ public class ProductEntity {
     private Integer ProductID;
     private String ProductName;
     private String Description;
-    private String Price;
+    private Float Price;
     private Integer StockQuantity;
     private String Properties;
     private String ProductReview;
@@ -51,11 +51,12 @@ public class ProductEntity {
         Description = description;
     }
 
-    public String getPrice() {
+
+    public Float getPrice() {
         return Price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Float price) {
         Price = price;
     }
 
@@ -113,7 +114,7 @@ public class ProductEntity {
                 "ProductID=" + ProductID +
                 ", ProductName='" + ProductName + '\'' +
                 ", Description='" + Description + '\'' +
-                ", Price='" + Price + '\'' +
+                ", Price=" + Price +
                 ", StockQuantity=" + StockQuantity +
                 ", Properties='" + Properties + '\'' +
                 ", ProductReview='" + ProductReview + '\'' +
