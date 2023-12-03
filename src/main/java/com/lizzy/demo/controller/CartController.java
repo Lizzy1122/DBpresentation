@@ -96,6 +96,7 @@ public class CartController {
                                @RequestParam Integer pageSize,
                                @RequestParam (required = false)Integer UserID,
                                @RequestParam (required = false)Integer ProductID,
+                               @RequestParam (required = false)String ProductName,
                                @RequestParam (required = false)Integer AddToCartQuantity,
                                @RequestParam (required = false)Timestamp AddToCartTime) {
 
@@ -103,6 +104,9 @@ public class CartController {
         queryWrapperCart.lambda().orderByDesc(CartEntity::getCartID);
         if (!ObjectUtils.isNull(AddToCartQuantity)) {
             queryWrapperCart.like("addToCartQuantity", AddToCartQuantity.toString());
+        }
+        if (!StringUtils.isBlank(ProductName)) {
+            queryWrapperCart.like("productName", ProductName);
         }
         if (!ObjectUtils.isNull(AddToCartTime)) {
             // 使用 >= 和 <= 进行时间范围匹配

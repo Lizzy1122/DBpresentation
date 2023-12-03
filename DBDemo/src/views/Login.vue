@@ -121,15 +121,8 @@ export default {
           console.log("登录成功", response.data);
           this.userid = response.data.data.UserID;
           ElMessage.success("登录成功");
-          if (this.value == "0") this.$router.push({path:'/UserProduct',query:{ userid:this.userid }}); //不同用户跳转不同页面
+          if (this.value == "0") this.$router.push({path:'/AdminProduct',query:{ userid:this.userid }}); //不同用户跳转不同页面
           if (this.value == "1") this.$router.push({path:"/UserProduct",query:{ userid:this.userid }}); //1代表用户
-          if (this.value == "2") this.$router.push("/AdminCart"); //2代表商家
-
-
-
-
-          if (this.value == "0") this.$router.push("/AdminCart"); //不同用户跳转不同页面
-          if (this.value == "1") this.$router.push("/AdminUser"); //1代表用户
           if (this.value == "2") {
             this.$router.push({
               path: "/seller",

@@ -18,11 +18,13 @@ public class CartEntity {
 
     @TableId(type = IdType.AUTO)
     private Integer CartID;
+    private Integer ProductID;
+    private Integer UserID;
+    private String ProductName;
     private Integer AddToCartQuantity;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private Timestamp AddToCartTime;
-    private Integer ProductID;
-    private Integer UserID;
+
 
     public Integer getCartID() {
         return CartID;
@@ -64,14 +66,23 @@ public class CartEntity {
         UserID = userID;
     }
 
+    public String getProductName() {
+        return ProductName;
+    }
+
+    public void setProductName(String productName) {
+        ProductName = productName;
+    }
+
     @Override
     public String toString() {
         return "CartEntity{" +
                 "CartID=" + CartID +
-                ", AddToCartQuantity=" + AddToCartQuantity +
-                ", AddToCartTime=" + AddToCartTime +
                 ", ProductID=" + ProductID +
                 ", UserID=" + UserID +
+                ", ProductName='" + ProductName + '\'' +
+                ", AddToCartQuantity=" + AddToCartQuantity +
+                ", AddToCartTime=" + AddToCartTime +
                 '}';
     }
 }

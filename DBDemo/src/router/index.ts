@@ -15,8 +15,12 @@ import AdminOrder from "../views/AdminOrder.vue";
 import AdminCart from "../views/AdminCart.vue";
 import login from "../views/Login.vue";
 import register from "../views/Register.vue";
+// @ts-ignore
 import seller from "../views/SellerProduct.vue";
-
+// @ts-ignore
+import UserCart from "../views/UserCart.vue";
+// @ts-ignore
+import UserProduct from "../views/UserProduct.vue";
 // @ts-ignore
 const router = createRouter({
     history:createWebHashHistory(),
@@ -54,45 +58,14 @@ const router = createRouter({
             component: register,
         },
         {
+            path: "/seller",
+            component: seller,
+        },
+        {
             path:"/",
             component:login
         }
     ]
-  history: createWebHashHistory(),
-  routes: [
-    {
-      path: "/AdminUser",
-      component: AdminUser,
-    },
-    {
-      path: "/AdminOrder",
-      component: AdminOrder,
-    },
-    {
-      path: "/AdminProduct",
-      component: AdminProduct,
-    },
-    {
-      path: "/AdminCart",
-      component: AdminCart,
-    },
-    {
-      path: "/login",
-      component: login,
-    },
-    {
-      path: "/seller",
-      component: seller,
-    },
-    {
-      path: "/register",
-      component: register,
-    },
-    {
-      path: "/",
-      component: login,
-    },
-  ],
 });
 
 export default router;

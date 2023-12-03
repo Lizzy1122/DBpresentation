@@ -12,6 +12,7 @@ import com.lizzy.demo.mapper.ProductMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 
 @Service
 public class CartService extends ServiceImpl<CartMapper, CartEntity> {
@@ -21,8 +22,8 @@ public class CartService extends ServiceImpl<CartMapper, CartEntity> {
     CartMapper cartMapper;
 
 
-    public void addproducttocart(Integer ProductID, Integer AddToCartQuantity, Integer UserID){
-        cartMapper.AddToCart(ProductID, AddToCartQuantity, UserID);
+    public void addproducttocart(Integer ProductID, Integer AddToCartQuantity, Integer UserID, String ProductName, Timestamp AddToCartTime){
+        cartMapper.AddToCart(ProductID, AddToCartQuantity, UserID, ProductName, AddToCartTime);
     }
 
 

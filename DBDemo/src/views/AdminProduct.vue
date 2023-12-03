@@ -50,6 +50,7 @@ export default {
       this.UserID = this.$route.query.userid;
       this.AddToCartQuantity = 1;
       this.ProductID = id;
+      // this.ProductName = ;
       console.log(this.UserID);
       console.log(this.AddToCartQuantity);
       console.log(this.ProductID);
@@ -58,6 +59,7 @@ export default {
         AddToCartQuantity: this.AddToCartQuantity,
         UserID: this.UserID,
         ProductID: this.ProductID,
+        ProductName: this.ProductName,
       }).then(res => {
         if (res.data.code === '200') {
           this.$message.success('已加入购物车')

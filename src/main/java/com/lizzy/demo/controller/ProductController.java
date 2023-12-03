@@ -18,7 +18,9 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.fasterxml.jackson.databind.JsonNode;
+
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -33,15 +35,25 @@ public class ProductController {
     @Resource
     private CartService cartService;
 
+    @GetMapping("/getCurrentTime")
+    public Timestamp getCurrentTime() {
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        System.out.println(timestamp);
+        return timestamp;
+    }
+
     @PostMapping("/AddProductToCart")
-    public Result AddProductToCart (@RequestBody Map<String, Object> requestBody) {
+    public Result AddProductToCart(@RequestBody Map<String, Object> requestBody) {
         Integer AddToCartQuantity = Integer.valueOf(requestBody.get("AddToCartQuantity").toString());
         Integer UserID = Integer.valueOf(requestBody.get("UserID").toString());
         Integer ProductID = Integer.valueOf(requestBody.get("ProductID").toString());
-        System.out.println(ProductID+"111");
-        System.out.println(AddToCartQuantity+"111");
-        System.out.println(UserID+"111");
-        cartService.addproducttocart(ProductID,AddToCartQuantity,UserID);
+        String ProductName = String.valueOf(requestBody.get("ProductName"));
+        Timestamp AddToCartTime = Timestamp.valueOf(requestBody.get("AddToCartTime").toString());
+//        System.out.println(ProductID+"111");
+//        System.out.println(AddToCartQuantity+"111");
+//        System.out.println(UserID+"111");
+        cartService.addproducttocart(ProductID, AddToCartQuantity, UserID, ProductName, AddToCartTime);
 //        ProductEntity product = productService1.AddProductToCart1(ProductID);
         return Result.success("商品插入购物车表");
     }
@@ -126,13 +138,13 @@ public class ProductController {
     @GetMapping("/selectByPage")
     public Result selectByPage(@RequestParam Integer pageNum,
                                @RequestParam Integer pageSize,
-                               @RequestParam (required = false)Integer ProductID,
+                               @RequestParam(required = false) Integer ProductID,
                                @RequestParam String ProductName,
                                @RequestParam String Description,
-                               @RequestParam (required = false)Float Price,
-                               @RequestParam (required = false)Integer StockQuantity,
-                               @RequestParam (required = false)String Properties,//商品属性
-                               @RequestParam (required = false)Integer SellerID) {
+                               @RequestParam(required = false) Float Price,
+                               @RequestParam(required = false) Integer StockQuantity,
+                               @RequestParam(required = false) String Properties,//商品属性
+                               @RequestParam(required = false) Integer SellerID) {
 
         QueryWrapper<ProductEntity> queryWrapper = new QueryWrapper<ProductEntity>().orderByDesc("productID");
         queryWrapper.lambda().orderByDesc(ProductEntity::getProductID);

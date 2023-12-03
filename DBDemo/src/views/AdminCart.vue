@@ -10,6 +10,7 @@ export default {
       pageSize: 5,  //每页显示个数
       CartID:'',
       AddToCartQuantity: '',
+      ProductName: '',
       AddToCartTime: null,
       UserID: '',
       ProductID: '',
@@ -82,7 +83,8 @@ export default {
           AddToCartQuantity: this.AddToCartQuantity,
           AddToCartTime: this.AddToCartTime,
           UserID:this.UserID,
-          ProductID:this.ProductID
+          ProductID:this.ProductID,
+          ProductName:this.ProductName
         }
       }).then(res => {
         console.log(res)
@@ -98,6 +100,7 @@ export default {
       this.AddToCartTime = null
       this.UserID = '';
       this.ProductID = ''
+      this.ProductName = ''
       this.seleteAll();
     },
     handleCurrentChange(pageNum){
@@ -212,8 +215,9 @@ export default {
 
 
   <div class="upperdiv">
+    <el-input v-model="UserID" style="width: 200px;" placeholder="请输入用户ID"/>
     <el-input v-model="ProductID" style="width: 200px; margin: 0 5px;" placeholder="请输入商品ID"/>
-    <el-input v-model="UserID" style="width: 200px; margin: 0 5px;" placehsolder="请输入用户ID"/>
+    <el-input v-model="ProductName" style="width: 200px; margin: 0 5px" placeholder="请输入商品名称"/>
     <el-input v-model="AddToCartQuantity" style="width: 200px" placeholder="请输入商品数量"/>
 
     <el-date-picker class="demo-datetime-picker"
@@ -237,6 +241,7 @@ export default {
               @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"></el-table-column>
       <el-table-column prop="cartID" label="编号" width="180"/>
+      <el-table-column prop="productName" label="商品名称" width="180"/>
       <el-table-column prop="addToCartQuantity" label="商品数量" width="180"/>
       <el-table-column prop="addToCartTime" label="添加到购物车时间" width="180">
 <!--        <template v-slot="">-->

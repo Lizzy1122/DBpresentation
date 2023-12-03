@@ -1,4 +1,6 @@
 <script>
+import moment from "moment/moment";
+
 export default {
   name: 'AdminProduct',
   data() {
@@ -6,10 +8,17 @@ export default {
       tableData: [],//所有数据
       pageNum: 1,   //当前页码
       pageSize: 5,  //每页显示个数
-      UserID:'',
-      ProductID:'',
+      UserID: '',
+      ProductID: '',
       ProductName: '',
       Description: '',
+      StockQuantity: '',
+      Properties: '',
+      Price: '',
+      ProductReview: '',
+      ProductImages: '',
+      AddToCartTime:'',
+      SellerID: '',
       total: 0,
       FormVisible: false,
       form: {
@@ -21,11 +30,13 @@ export default {
         properties: '',
         productReview: '',
         productImages: '',
+        sellerID:'',
       },
       rules: {
-        productName: [
-          {required: true, message: "请输入商品名", trigger: 'blur'},
-        ],
+        productName: [{required: true, message: "商品名不能为空", trigger: 'blur'},],
+        price:[{required: true, message: "商品价格不能为空", trigger: 'blur'},],
+        stockQuantity:[{required: true, message: "商品库存不能为空", trigger: 'blur'},],
+        sellerID:[{required: true, message: "商家ID不能为空", trigger: 'blur'},],
       },
       ids: [],
 
@@ -37,26 +48,44 @@ export default {
 
   },
   methods: {
+    formatDate(dateTime) {
+      // 使用 moment.js 格式化日期时间
+      return moment(dateTime).utcOffset(8).format('YYYY/MM/DD HH:mm:ss');
+    },
+    handleAddToCart(scope) {
 
-    handleAddToCart(id) {
+      this.axios.get('http://localhost:3312/product/getCurrentTime',{}).then(res =>{
+        this.AddToCartTime= res.data;
+        console.log(this.AddToCartTime,'time1');
+        // this.AddToCartTime = this.formatDate(this.AddToCartTime);
+        // console.log(this.AddToCartTime,'time2');
+
+
       this.UserID = this.$route.query.userid;
-      this.AddToCartQuantity=1;
-      this.ProductID=id;
-      console.log(this.UserID);
-      console.log(this.AddToCartQuantity);
-      console.log(this.ProductID);
+      this.AddToCartQuantity = 1;
+      this.ProductID = scope.row.productID;
+      this.ProductName =scope.row.productName;
+      console.log(scope,'scope');
+      console.log(this.AddToCartTime,'time3');
+      console.log(this.UserID,111);
+      console.log(this.AddToCartQuantity,222);
+      console.log(this.ProductID,333);
+      console.log(this.ProductName,444);
 
-        this.axios.post('http://localhost:3312/product/AddProductToCart', {
-          AddToCartQuantity: this.AddToCartQuantity,
-          UserID: this.UserID,
-          ProductID: this.ProductID,
-        }).then(res => {
-          if (res.data.code === '200') {
-            this.$message.success('已加入购物车')
-          } else {
-            this.$message.error(res.data.msg)
-          }
+      this.axios.post('http://localhost:3312/product/AddProductToCart', {
+        AddToCartTime:this.AddToCartTime,
+        AddToCartQuantity: this.AddToCartQuantity,
+        UserID: this.UserID,
+        ProductID: this.ProductID,
+        ProductName:this.ProductName,
+      }).then(res => {
+        if (res.data.code === '200') {
+          this.$message.success('已加入购物车')
+        } else {
+          this.$message.error(res.data.msg)
+        }
 
+      })
       })
     },
 
@@ -67,8 +96,13 @@ export default {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
+          ProductID: this.ProductID,
           ProductName: this.ProductName,
           Description: this.Description,
+          StockQuantity: this.StockQuantity,
+          Properties: this.Properties,
+          Price: this.Price,
+          SellerID: this.SellerID,
         }
       }).then(res => {
         console.log(res)
@@ -80,7 +114,11 @@ export default {
     },
     reset() {
       this.ProductName = '';
-      this.Description = ''
+      this.Description = '';
+      this.StockQuantity = '';
+      this.Properties = '';
+      this.Price = '';
+      this.SellerID = '';
       this.load();
     },
     save() {
@@ -209,6 +247,10 @@ export default {
       }).catch(() => {
       })
     },
+    ToMyCart(){
+      this.UserID = this.$route.query.userid;
+      this.$router.push({path:"/UserCart",query:{UserID:this.UserID }})
+    }
 
   }
 }
@@ -217,20 +259,25 @@ export default {
 
 <template>
   <div class="container">
-    <div class="navigator">
-      <router-link to="./AdminOrder">管理订单|</router-link>
-      <router-link to="./AdminUser">管理用户|</router-link>
-      <router-link to="./AdminProduct">管理商品</router-link>
-      <router-link to="./AdminCart">管理购物车</router-link>
-    </div>
+<!--    <div class="navigator">-->
+<!--      <router-link to="./AdminOrder">管理订单|</router-link>-->
+<!--      <router-link to="./AdminUser">管理用户|</router-link>-->
+<!--      <router-link to="./AdminProduct">管理商品</router-link>-->
+<!--      <router-link to="./AdminCart">管理购物车</router-link>-->
+<!--    </div>-->
 
     <div class="upperdiv">
       <el-input v-model="ProductName" style="width: 200px" placeholder="请输入产品名"/>
       <el-input v-model="Description" style="width: 200px; margin: 0 5px;" placeholder="请输入产品描述"/>
+      <el-input v-model="Price" style="width: 200px; margin: 0 5px;" placeholder="请输入商品价格"/>
+<!--      <el-input v-model="StockQuantity" style="width: 200px; margin: 0 5px;" placeholder="请输入商品库存"/>-->
+      <el-input v-model="Properties" style="width: 200px; margin: 0 5px;" placeholder="请输入商品属性"/>
+<!--      <el-input v-model="SellerID" style="width: 200px; margin: 0 5px;" placeholder="请输入商家ID"/>-->
       <el-button @click="load(1)" type="primary">查询</el-button>
       <el-button @click="reset()" type="info">重置</el-button>
-      <el-button @click="handleAdd()" type="primary">新增</el-button>
-      <el-button @click="delBatch()" type="danger">批量删除</el-button>
+      <el-button @click="ToMyCart()" type="info">查看购物车</el-button>
+<!--      <el-button @click="handleAdd()" type="primary">新增</el-button>-->
+<!--      <el-button @click="delBatch()" type="danger">批量删除</el-button>-->
     </div>
 
     <div class="middlediv">
@@ -240,11 +287,15 @@ export default {
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="productName" label="商品名" width="180"/>
         <el-table-column prop="description" label="商品描述" width="180"/>
+        <el-table-column prop="price" label="商品价格" width="180"/>
+<!--        <el-table-column prop="stockQuantity" label="商品库存" width="180"/>-->
+        <el-table-column prop="properties" label="商品属性" width="180"/>
+<!--        <el-table-column prop="sellerID" label="商家ID" width="180"/>-->
         <el-table-column label="操作" key="slot">
           <template #default="scope">
-            <el-button size="small" type="primary" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="small" type="danger" @click="handleDelete(scope.row.productID)">删除</el-button>
-            <el-button size="small" type="primary" @click="handleAddToCart(scope.row.productID)">加入购物车</el-button>
+<!--            <el-button size="small" type="primary" @click="handleEdit(scope.row)">编辑</el-button>-->
+<!--            <el-button size="small" type="danger" @click="handleDelete(scope.row.productID)">删除</el-button>-->
+            <el-button size="small" type="primary" @click="handleAddToCart(scope)">加入购物车</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -270,6 +321,18 @@ export default {
         </el-form-item>
         <el-form-item label="商品描述" prop="description">
           <el-input v-model="form.description" autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="商品价格" prop="price">
+          <el-input v-model="form.price" autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="商品库存" prop="stockQuantity">
+          <el-input v-model="form.stockQuantity" autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="商品属性" prop="properties">
+          <el-input v-model="form.properties" autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="商家ID" prop="sellerID">
+          <el-input v-model="form.sellerID" autocomplete="off"/>
         </el-form-item>
       </el-form>
       <template #footer>
